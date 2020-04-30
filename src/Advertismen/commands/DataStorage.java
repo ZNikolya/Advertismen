@@ -3,9 +3,6 @@ package Advertismen.commands;
 import Advertismen.exception.ModelNotFoundException;
 import Advertismen.model.AD;
 import Advertismen.model.User;
-import advertismentApp.exception.ModelNotFoundException;
-import advertismentApp.model.AD;
-import advertismentApp.model.User;
 
 import java.util.Date;
 

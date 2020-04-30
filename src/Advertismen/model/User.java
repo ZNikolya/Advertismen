@@ -102,8 +102,6 @@ public class User {
                 ", surName='" + surName + '\'' +
                 ", gender=" + gender +
                 ", age=" + age +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", password='" + password + '\'' +
                 '}';
     }
 }

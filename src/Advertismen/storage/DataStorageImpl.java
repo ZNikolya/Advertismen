@@ -1,4 +1,4 @@
-package Advertismen;
+package Advertismen.storage;
 
 import Advertismen.commands.DataStorage;
 import Advertismen.exception.ModelNotFoundException;
