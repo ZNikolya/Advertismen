@@ -20,26 +20,31 @@ public class RunAd implements Command {
     }
 
     private static void main() {
-        boolean isRun = true;
-        while (isRun) {
-            Command.printMainCommands();
-            int mainCommand;
-            try {
-                mainCommand = Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) {
-                mainCommand = -1;
+        try {
+            boolean isRun = true;
+            while (isRun) {
+                Command.printMainCommands();
+                int mainCommand;
+                try {
+                    mainCommand = Integer.parseInt(scanner.nextLine());
+                } catch (NumberFormatException e) {
+                    mainCommand = -1;
+                }
+                switch (mainCommand) {
+                    case LOGIN:
+                        login();
+                        break;
+                    case REGISTER:
+                        register();
+                        break;
+                    case EXIT:
+                        isRun = false;
+                        break;
+        }
             }
-            switch (mainCommand) {
-                case LOGIN:
-                    login();
-                    break;
-                case REGISTER:
-                    register();
-                    break;
-                case EXIT:
-                    isRun = false;
-                    break;
-            }
+        }catch (Exception e){
+            System.out.println("Invalid number please try again");
+            main();
         }
     }
 
@@ -62,7 +67,7 @@ public class RunAd implements Command {
                 dataStorageImpl.addUsers(user);
                 dataStorageImpl.addMap(userDataStr[4], user);
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
+        } catch (Exception e) {
             System.out.println("Invalid Data! please try again");
             register();
         }
@@ -96,6 +101,7 @@ public class RunAd implements Command {
                     addNewAd();
                     break;
                 case PRINT_MY_ALL_ADS:
+                    dataStorageImpl.printMyAllADS(users);
                     break;
                 case PRINT_ALL_ADS:
                     dataStorageImpl.printAllADS();
@@ -104,13 +110,16 @@ public class RunAd implements Command {
                     adByCategory();
                     break;
                 case PRINT_ALL_AD_BY_TITLE_SORT:
-
+                    dataStorageImpl.printAllADSByTitleSort();
                     break;
                 case PRINT_ALL_AD_BY_DATE_SORT:
+                    dataStorageImpl.printAllADSByDataSort();
                     break;
                 case DELETE_MY_ALL_ADS:
+                    dataStorageImpl.deleteMyAllADS(users);
                     break;
                 case DELETE_AD_BY_TITLE:
+                    deleteAdByTitle();
                     break;
                 case LOGOUT:
                     isRun =false;
@@ -120,6 +129,13 @@ public class RunAd implements Command {
             }
         }
     }
+
+    private static void deleteAdByTitle() {
+        System.out.println("Plase input title or delete");
+        String title = scanner.nextLine();
+        dataStorageImpl.deleteADByTitle(title,users);
+    }
+
 
     private static void adByCategory() {
         System.out.println("Please input Advertisment category");

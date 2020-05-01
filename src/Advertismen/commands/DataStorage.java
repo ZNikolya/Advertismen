@@ -8,13 +8,13 @@ import java.util.Date;
 
 public interface DataStorage {
 
-    void printMyAllADS ();
+    void printMyAllADS (User user);
     void printAllADS ();
     void printADByCategory (String category) throws ModelNotFoundException, ModelNotFoundException;
-    void printAllADSByTitleSort (String title);
-    void printAllADSByDataSort (Date date);
-    AD deleteMyAllADS ();
-    AD deleteADByTitle (String title);
+    void printAllADSByTitleSort () throws ModelNotFoundException;
+    void printAllADSByDataSort ();
+    void deleteMyAllADS (User user);
+    void deleteADByTitle (String title,User user);
     User getUserByPhoneNumber(String phoneNumber);
     User getUserByPhoneNumberAndPassword(String phoneNumber,String password) throws ModelNotFoundException;
 

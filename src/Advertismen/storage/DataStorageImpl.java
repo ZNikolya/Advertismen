@@ -4,7 +4,6 @@ import Advertismen.commands.DataStorage;
 import Advertismen.exception.ModelNotFoundException;
 import Advertismen.model.AD;
 import Advertismen.model.User;
-
 import java.util.*;
 
 public class DataStorageImpl implements DataStorage {
@@ -32,8 +31,12 @@ public class DataStorageImpl implements DataStorage {
     }
 
     @Override
-    public void printMyAllADS() {
-
+    public void printMyAllADS(User user) {
+        for (int i = 0; i < ads.size(); i++) {
+            if (ads.get(i).getUser() == user) {
+                System.out.println(ads.get(i));
+            }
+        }
     }
 
     @Override
@@ -53,29 +56,33 @@ public class DataStorageImpl implements DataStorage {
     }
 
     @Override
-    public void printAllADSByTitleSort(String title) {
+    public void printAllADSByTitleSort() {
+        ads.sort(this::compareTo);
         for (int i = 0; i < ads.size(); i++) {
-            if (ads.get(i).getTitle().equals(title)) {
-                System.out.println(ads.get(i).getTitle().compareTo(title));
-            }
+            System.out.println(ads.get(i));
         }
     }
 
     @Override
-    public void printAllADSByDataSort(Date date) {
+    public void printAllADSByDataSort() {
+        ads.sort(this::compare);
         for (int i = 0; i < ads.size(); i++) {
-            System.out.println(ads.get(i).getCreatedData().compareTo(date));
+            System.out.println(ads.get(i));
         }
     }
 
     @Override
-    public AD deleteMyAllADS() {
-        return null;
+    public void deleteMyAllADS(User user) {
+        ads.removeIf(ad -> ad.getUser() == user);
+        System.out.println("Advertismen is delete!");
     }
 
     @Override
-    public AD deleteADByTitle(String title) {
-        return null;
+    public void deleteADByTitle(String title,User user) {
+        if (ads.removeIf(ad -> ad.getTitle().equals(title) && ad.getUser().equals(user))){
+        System.out.println("Advertismen delete by title!");
+        }
+        else System.out.println("You don have rights Advertismen!!");
     }
 
     @Override
@@ -97,4 +104,14 @@ public class DataStorageImpl implements DataStorage {
         }
         throw new ModelNotFoundException("Wrong PhoneNumber or password !!!");
     }
+
+    public int compare(AD o1, AD o2) {
+        return o1.getCreatedData().compareTo(o2.getCreatedData());
+    }
+
+    public int compareTo(AD o1, AD o2) {
+        return o1.getTitle().compareTo(o2.getTitle());
+    }
+
+
 }
