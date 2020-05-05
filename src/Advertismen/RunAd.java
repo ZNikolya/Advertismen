@@ -6,10 +6,16 @@ import Advertismen.model.AD;
 import Advertismen.model.Gender;
 import Advertismen.model.User;
 import Advertismen.storage.DataStorageImpl;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.util.Scanner;
 
 public class RunAd implements Command {
+
+    public static final String  FILE_PATH = "D:\\IdeaProjects\\Advertismen\\src\\Advertismen\\fileExample.txt";
 
     private static final DataStorageImpl dataStorageImpl = new DataStorageImpl();
     private static final Scanner scanner = new Scanner(System.in);
@@ -20,6 +26,13 @@ public class RunAd implements Command {
     }
 
     private static void main() {
+        try {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(FILE_PATH));
+            objectOutputStream.writeObject(users);
+            objectOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         try {
             boolean isRun = true;
             while (isRun) {

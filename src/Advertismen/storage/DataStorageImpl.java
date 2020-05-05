@@ -33,7 +33,7 @@ public class DataStorageImpl implements DataStorage {
     @Override
     public void printMyAllADS(User user) {
         for (int i = 0; i < ads.size(); i++) {
-            if (ads.get(i).getUser() == user) {
+            if (ads.get(i).getUser().equals(user)) {
                 System.out.println(ads.get(i));
             }
         }
@@ -73,7 +73,7 @@ public class DataStorageImpl implements DataStorage {
 
     @Override
     public void deleteMyAllADS(User user) {
-        ads.removeIf(ad -> ad.getUser() == user);
+        ads.removeIf(ad -> ad.getUser().equals(user));
         System.out.println("Advertismen is delete!");
     }
 
