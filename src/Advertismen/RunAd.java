@@ -7,15 +7,15 @@ import Advertismen.model.Gender;
 import Advertismen.model.User;
 import Advertismen.storage.DataStorageImpl;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class RunAd implements Command {
 
-    public static final String  FILE_PATH = "D:\\IdeaProjects\\Advertismen\\src\\Advertismen\\fileExample.txt";
+    public static final String FILE_PATH = "D:\\IdeaProjects\\Advertismen\\src\\Advertismen\\fileExample.txt";
 
     private static final DataStorageImpl dataStorageImpl = new DataStorageImpl();
     private static final Scanner scanner = new Scanner(System.in);
@@ -26,13 +26,28 @@ public class RunAd implements Command {
     }
 
     private static void main() {
-        try {
-            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(FILE_PATH));
-            objectOutputStream.writeObject(users);
-            objectOutputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            List<User> users1 = new ArrayList<>();
+//            users1.add(users);
+//            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(FILE_PATH));
+//            objectOutputStream.writeObject(users1);
+//            objectOutputStream.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        try {
+//            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(FILE_PATH));
+//            Object deserialiation = objectInputStream.readObject();
+//            List<User> us = (List<User>) deserialiation;
+//            objectInputStream.close();
+//            for (User user2 : us) {
+//                System.out.println(user2);
+//            }
+//
+//        } catch (IOException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
         try {
             boolean isRun = true;
             while (isRun) {
@@ -53,9 +68,9 @@ public class RunAd implements Command {
                     case EXIT:
                         isRun = false;
                         break;
-        }
+                }
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("Invalid number please try again");
             main();
         }
@@ -89,11 +104,11 @@ public class RunAd implements Command {
     private static void login() {
         System.out.println("Please input PhoneNumber and password(phoneNumber.password)");
         String userData = scanner.nextLine();
-        String [] userDataStr = userData.split(",");
+        String[] userDataStr = userData.split(",");
         try {
-            users = dataStorageImpl.getUserByPhoneNumberAndPassword(userDataStr[0],userDataStr[1]);
+            users = dataStorageImpl.getUserByPhoneNumberAndPassword(userDataStr[0], userDataStr[1]);
             loginUser();
-        }catch (ModelNotFoundException | ArrayIndexOutOfBoundsException e) {
+        } catch (ModelNotFoundException | ArrayIndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
             login();
         }
@@ -135,7 +150,7 @@ public class RunAd implements Command {
                     deleteAdByTitle();
                     break;
                 case LOGOUT:
-                    isRun =false;
+                    isRun = false;
                     main();
                     break;
 
@@ -146,7 +161,7 @@ public class RunAd implements Command {
     private static void deleteAdByTitle() {
         System.out.println("Plase input title or delete");
         String title = scanner.nextLine();
-        dataStorageImpl.deleteADByTitle(title,users);
+        dataStorageImpl.deleteADByTitle(title, users);
     }
 
 
@@ -155,27 +170,27 @@ public class RunAd implements Command {
         try {
             String category = scanner.nextLine();
             dataStorageImpl.printADByCategory(category);
-        }catch (ModelNotFoundException e) {
+        } catch (ModelNotFoundException e) {
             System.out.println("Advertisment not found");
         }
     }
 
     private static void addNewAd() {
         try {
-        System.out.println("Please input Advertisment data: title,text,price,category");
-        String adData = scanner.nextLine();
-        String [] adDataStr = adData.split(",");
-        AD ad = new AD();
-        Date date = new Date();
-        ad.setTitle(adDataStr[0]);
-        ad.setText(adDataStr[1]);
-        ad.setPrice(Integer.parseInt(adDataStr[2]));
-        ad.setCreatedData(date);
-        ad.setCategory(adDataStr[3]);
-        ad.setUser(users);
-        dataStorageImpl.addAds(ad);
-        System.out.println("Thank you, Advertisment was added");
-    }catch (ArrayIndexOutOfBoundsException  e) {
+            System.out.println("Please input Advertisment data: title,text,price,category");
+            String adData = scanner.nextLine();
+            String[] adDataStr = adData.split(",");
+            AD ad = new AD();
+            Date date = new Date();
+            ad.setTitle(adDataStr[0]);
+            ad.setText(adDataStr[1]);
+            ad.setPrice(Integer.parseInt(adDataStr[2]));
+            ad.setCreatedData(date);
+            ad.setCategory(adDataStr[3]);
+            ad.setUser(users);
+            dataStorageImpl.addAds(ad);
+            System.out.println("Thank you, Advertisment was added");
+        } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Invalid Data! please try again");
             addNewAd();
         }
